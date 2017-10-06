@@ -1,6 +1,6 @@
 /*
-    INPUT: [2 4 5 4 7 9 5 4 7] 
-    OUTPUT: [4 4 4 5 5 7 7 2 9]
+    INPUT: int[] array = {3,2,3,8,8,5,1,7,7,7,5,5} 
+    OUTPUT: 5 5 5 7 7 7 3 3 8 8 1 2
     
     -> sort the array with decreasing frequency of elements
     -> If two elements have the same frequency, sort them by their actual value in increasing order
@@ -15,7 +15,7 @@ class SortArrayBasedOnFrequency
 {
     public static void main (String[] args) throws java.lang.Exception
     {
-        int[] array = {3,2};
+        int[] array = {3,2,3,8,8,5,1,7,7,7,5,5};
         int[] result= sortArrayBasedOnFrequency(array);
         for(int val:result)
             System.out.print(val+" ");
@@ -31,8 +31,26 @@ class SortArrayBasedOnFrequency
         //store the frequency of each Integer
         HashMap<Integer,Integer> map =new HashMap<>();
         
-        // store value based on frequencies  
-        PriorityQueue<Map.Entry<Integer, Integer>> queue = new PriorityQueue<>((x, y) ->y.getValue() -x.getValue());
+        
+        // store value based on frequencies first and than Key 
+        PriorityQueue<Map.Entry<Integer, Integer>> queue = new PriorityQueue<>(
+            (x, y) ->{
+                
+                // if two key has the same freq than sort in ascending order
+                if(x.getValue()== y.getValue())
+                    return x.getKey()- y.getKey();
+                
+                //sorting based on high frequency and low value
+                if(y.getKey()> x.getKey() && y.getValue() < x.getValue() ){
+                    return x.getKey()-y.getKey();
+                }
+                
+                // sorting based on frequencies
+                else{
+                    return y.getValue()- x.getValue();
+                }
+            }                                                              
+        );
         
         for(int i=0;i<array.length;i++){
             int key= array[i];
@@ -51,7 +69,7 @@ class SortArrayBasedOnFrequency
             int key= entry.getKey();
             int freq = map.get(key);
             
-            //store key with maximum frequency first
+            //store key with equivalent frequency
             for(int i=0;i<freq;i++){
                 result[index] = key;
                 index++;
