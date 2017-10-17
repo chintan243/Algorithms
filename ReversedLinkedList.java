@@ -21,9 +21,13 @@ class Node{
 
 public class ReversedLinkedList {
     
+    // Method that perform reverse operation
     static Node ReverseLinkedList(Node head){
-        Node temp=head;
+      
+        if(head==null) return null;
         
+        Node temp=head;
+       
         //make current to next
         Node current=temp.next;
         //make next to current
